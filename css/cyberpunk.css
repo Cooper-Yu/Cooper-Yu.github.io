@@ -1,0 +1,767 @@
+/* 赛博朋克 2077 配色 */
+:root {
+    --color-primary: #00fff7; /* 青色霓虹 */
+    --color-secondary: #ff00e6; /* 粉色霓虹 */
+    --color-bg: #0d0d0d; /* 深黑背景 */
+    --color-text: #e0e0e0; /* 浅灰文字 */
+  }
+  
+/* 全站字体（赛博朋克科技感） */
+body {
+  font-family: 'Share Tech Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  line-height: 1.65;
+  letter-spacing: .2px;
+}
+
+/* 标题字体发光 */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Orbitron', 'Share Tech Mono', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: .5px;
+  color: var(--color-primary);
+  text-shadow: 0 0 5px var(--color-primary),
+               0 0 10px var(--color-primary);
+}
+
+/* 背景色与文字色 */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* 链接颜色与hover效果 */
+a {
+  color: var(--color-secondary);
+  text-shadow: 0 0 5px var(--color-secondary);
+}
+a:hover {
+  color: var(--color-primary);
+  text-shadow: 0 0 10px var(--color-primary);
+}
+
+/* 按钮霓虹效果 */
+button, .btn {
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.5em 1em;
+  text-shadow: 0 0 5px var(--color-primary);
+  box-shadow: 0 0 5px var(--color-primary);
+  transition: all 0.3s ease;
+}
+button:hover, .btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-bg);
+  box-shadow: 0 0 20px var(--color-primary);
+}
+
+/* 顶部页头（蓝条）用横幅图替换——单一生效版本 */
+#page-header {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+#page-header .page-header,
+#page-header .video-banner,
+#page-header .video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 修正全宽显示，避免两侧黑边 */
+#page-header, #page-header .page-header, .video-banner {
+  max-width: 100vw !important;
+  margin: 0;
+}
+
+#page-header .video-bg,
+.video-banner video,
+.banner-video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+
+/* =========================
+   霓虹闪烁 + 毛玻璃 HUD
+   ========================= */
+
+/* 顶部导航毛玻璃 HUD 效果 */
+#nav, .nav-fixed {
+  backdrop-filter: blur(10px) saturate(1.1);
+  -webkit-backdrop-filter: blur(10px) saturate(1.1);
+  background: rgba(10, 15, 30, 0.45) !important;
+  border-bottom: 1px solid rgba(0,255,247,.25);
+  box-shadow: 0 6px 20px rgba(0,255,247,.08);
+}
+
+/* 提升横幅高度一点，更有沉浸感（可按需调回） */
+#page-header, #page-header .page-header {
+  min-height: 60vh;
+}
+
+/* 横幅上的 HUD 叠加：轻微扫描线 + 暗角 */
+#page-header::after {
+  content: "";
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.08),
+      rgba(255,255,255,0.08) 2px,
+      transparent 2px,
+      transparent 4px
+    ),
+    radial-gradient(1200px 600px at 20% -10%, rgba(18,183,255,.08), transparent 60%),
+    radial-gradient(1000px 500px at 120% 20%, rgba(255,0,230,.06), transparent 60%);
+  opacity: 0.2;
+}
+
+/* 霓虹标题：脉冲 + 偶发闪烁（兼容多种标题写法） */
+#page-header h1,
+#page-header .site-title,
+#page-header #site-title,
+#page-header .page-title {
+  animation: neonPulse 4s ease-in-out infinite, neonFlicker 7s linear infinite;
+  text-shadow: 0 0 10px var(--color-primary), 0 0 20px var(--color-secondary), 0 0 30px var(--color-primary);
+}
+
+/* 左右角落做两团霓虹“招牌光晕”，配合闪烁更有氛围 */
+#page-header::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(500px 300px at 10% 30%, rgba(255,0,230,.18), transparent 60%),
+    radial-gradient(480px 280px at 85% 35%, rgba(0,255,247,.18), transparent 60%);
+  animation: glowFlicker 6.5s ease-in-out infinite;
+}
+
+/* 新增渐变遮罩，提升标题和导航在视频背景上的清晰度 */
+#page-header .page-header::before {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 42%;                 /* 渐变高度，可调 30%~50% */
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,0) 0%,
+    rgba(0,0,0,.28) 38%,
+    rgba(0,0,0,.58) 100%
+  );
+  z-index: 2;
+}
+
+/* 移动端调整遮罩高度和不透明度 */
+@media (max-width: 768px) {
+  #page-header::after {
+    opacity: 0.3;
+    background:
+      repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05) 2px,
+        transparent 2px,
+        transparent 4px
+      ),
+      radial-gradient(1200px 400px at 20% -10%, rgba(18,183,255,.12), transparent 60%),
+      radial-gradient(1000px 400px at 120% 20%, rgba(255,0,230,.08), transparent 60%),
+      linear-gradient(180deg, rgba(0,0,0,.1), rgba(0,0,0,.4));
+  }
+}
+
+/* ====== 视频横幅 + HUD 画布层 ====== */
+#page-header .video-bg {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  opacity: 0; transition: opacity .6s ease;
+  z-index: 0;
+}
+#page-header.video-ready .video-bg { opacity: 1; }
+
+#page-header .hud-canvas {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+/* 首页视频横幅容器 */
+.video-banner {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 视频样式 */
+.video-banner video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 视频亮度调节 */
+.banner-video {
+  filter: brightness(0.9);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.banner-video.is-ready {
+  opacity: 1;
+}
+
+/* 首页视频横幅保留，但正文不被覆盖 */
+body.home #content-inner {
+    margin-top: 60vh; /* 与视频高度一致 */
+  }
+  
+  /* 如果你的首页正文容器类名不同，请替换 .home #content-inner */
+
+/* =========================
+   霓虹鼠标指针（桌面端启用，移动端关闭）
+   ========================= */
+@media (pointer: fine) {
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.2s;
+    will-change: transform, opacity;
+    mix-blend-mode: lighten;
+  }
+  .cursor-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-secondary);
+    box-shadow: 0 0 8px 2px var(--color-secondary), 0 0 24px 4px var(--color-primary);
+    transition: transform 0.13s cubic-bezier(.22,1.12,.56,1.08), background 0.2s;
+    opacity: 0.95;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  .cursor-dot.cursor-hover {
+    background: var(--color-primary);
+    box-shadow: 0 0 20px 6px var(--color-primary), 0 0 40px 8px var(--color-secondary);
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+  .cursor-dot.cursor-active {
+    background: #fff;
+    box-shadow: 0 0 18px 8px var(--color-primary), 0 0 60px 10px var(--color-secondary);
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  .cursor-ring {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    box-shadow: 0 0 20px 4px var(--color-primary), 0 0 60px 12px var(--color-secondary);
+    transition: transform 0.17s cubic-bezier(.22,1.12,.56,1.08), border-color 0.2s, box-shadow 0.2s;
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(1);
+    background: rgba(0,255,247,0.04);
+  }
+  .cursor-ring.cursor-hover {
+    border-color: var(--color-secondary);
+    box-shadow: 0 0 32px 8px var(--color-secondary), 0 0 80px 20px var(--color-primary);
+    background: rgba(255,0,230,0.08);
+    transform: translate(-50%, -50%) scale(1.22);
+    opacity: 0.75;
+  }
+  .cursor-ring.cursor-active {
+    border-color: #fff;
+    box-shadow: 0 0 40px 12px var(--color-primary), 0 0 120px 24px var(--color-secondary);
+    background: rgba(255,255,255,0.10);
+    transform: translate(-50%, -50%) scale(0.95);
+    opacity: 0.9;
+  }
+}
+
+/* ========== 全站霓虹箭头光标（SVG） ========== */
+@media (pointer: fine) {
+  /* 默认光标：全站 */
+  html, body {
+    cursor: url('/img/cursor/neon-arrow.svg') 4 0, auto !important;
+  }
+
+  /* 可点击元素：高亮版光标 + pointer 兜底 */
+  a, button, [role="button"], .btn, input[type="submit"],
+  .card a, .recent-post-item a, .nav-fixed a, #nav a {
+    cursor: url('/img/cursor/neon-arrow-hover.svg') 4 0, pointer !important;
+  }
+
+  /* 文本与代码区域仍用 I-beam */
+  input[type="text"], input[type="search"], input[type="email"], input[type="url"],
+  textarea, pre, code, .code, .markdown-body pre code {
+    cursor: text !important;
+  }
+}
+
+/* ========== 光标发光动画效果 ========== */
+@keyframes neonGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px var(--color-primary))
+            drop-shadow(0 0 4px var(--color-secondary));
+  }
+  50% {
+    filter: drop-shadow(0 0 6px var(--color-primary))
+            drop-shadow(0 0 12px var(--color-secondary));
+  }
+}
+
+/* 将发光动画应用到全站光标 */
+html, body {
+  animation: neonGlow 2s ease-in-out infinite;
+}
+
+/* ===== 强制全宽铺满，彻底消除黑边 ===== */
+html, body {
+  background-color: var(--color-bg);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  overflow-x: hidden; /* 防止横向滚动条 */
+}
+
+/*#container, .main-inner, .content-wrap, .container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}*/
+
+#page-header,
+#page-header .page-header,
+#page-header .video-banner,
+#page-header .video-bg {
+  width: 100% !important;
+  max-width: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#page-header .page-header {
+  position: relative; /* 确保 ::before 遮罩显示正确 */
+}
+
+/* 强制桌面端保留两栏 & 让 aside 可见（有些全局覆盖会导致被折叠） */
+@media (min-width: 992px) {
+  #aside-content { 
+    display: block !important; 
+    visibility: visible !important; 
+    opacity: 1 !important;
+  }
+  /* 若你的主题被我们之前的全宽破坏了 flex/grid，这里兜底成两列 */
+  .layout {
+    display: grid !important;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+    align-items: start;
+  }
+  #content-inner { grid-column: 1; }
+  #aside-content  { grid-column: 2; }
+}
+
+/* 首页：如果你希望保留“下方全屏季节视频”，仍然不要把正文整体下移 */
+.home #content-inner { 
+  margin-top: 0 !important;
+}
+
+body.home #content-inner {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 分类页横幅：跟随内容宽度，避免强制全屏导致黑边 */
+.category #page-header,
+.category #page-header .page-header,
+.category #page-header .video-banner,
+.category #page-header .video-bg {
+  width: 100% !important;
+  height: auto !important;
+  min-height: 42vh;                 /* 适度高度，保留沉浸感 */
+  background-color: var(--color-bg);
+  background-size: cover !important;
+  background-position: center !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 说明：非首页页头背景交由模板内联 style 控制；此处不再覆盖 background-image */
+
+/* 首页兜底背景（仅首页，无视频时作为备选） */
+.page.home #page-header {
+  background-image: url('/img/banner-fallback.jpeg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* ===== 光标统一优化（普通状态 & Hover） ===== */
+html, body {
+  cursor: url('/img/cursor/neon-arrow.svg') 8 8, auto !important;
+}
+a, button, [role="button"], .btn, input[type="submit"] {
+  cursor: url('/img/cursor/neon-arrow-hover.svg') 8 8, pointer !important;
+}
+
+/* ===== 页面背景黑边兜底处理 ===== */
+body {
+  background-color: #000; /* 统一深色背景兜底 */
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* ===== 顶部随机图淡入动画 ===== */
+#page-header.rand-fade-in { animation: headerFade .9s ease-out both; }
+@keyframes headerFade {
+  from { opacity: 0; filter: brightness(.8) saturate(.9); }
+  to   { opacity: 1; filter: brightness(1) saturate(1); }
+}
+
+/* ===== 层级分离与可读性强化（C.14）===== */
+/* 分层：视频 < HUD < 标题/导航 */
+#page-header { position: relative; }
+#page-header .banner-video,
+#page-header video.banner-video {
+  z-index: 0;
+  position: absolute;
+  inset: 0;
+}
+#page-header .hud-canvas {
+  z-index: 1;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+#nav, #page-header #nav {
+  z-index: 4;
+  position: relative;
+}
+#page-header #page-site-info,
+#page-header #site-info,
+#page-header .page-title,
+#page-header #site-title {
+  z-index: 3;
+  position: relative;
+}
+
+/* 标题可读性：轻描+霓虹阴影 */
+#page-header #site-title,
+#page-header .page-title,
+#page-header h1 {
+  color: #eafcff;
+  -webkit-text-stroke: 0.6px rgba(0,0,0,.35);
+  text-shadow: 0 0 10px rgba(0,255,247,.55), 0 0 22px rgba(255,0,230,.35);
+}
+
+/* 非首页标题块留白，避免与正文重叠 */
+.page:not(.home) #content-inner { padding-top: 1.2rem; }
+
+/* ===== 时间系统（白天 / 夜晚） ===== */
+body.theme-day #page-header .banner-video {
+  filter: brightness(1.1) hue-rotate(0deg);
+}
+body.theme-night #page-header .banner-video {
+  filter: brightness(0.7) hue-rotate(-15deg);
+}
+body.theme-day .hud-canvas {
+  animation-duration: 12s;
+}
+body.theme-night .hud-canvas {
+  animation-duration: 6s;
+}
+
+/* 背景音控制按钮 */
+.bg-audio-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  background: rgba(0,0,0,0.5);
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.4em 0.6em;
+  cursor: pointer;
+  text-shadow: 0 0 5px var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary);
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+.bg-audio-toggle:hover {
+  background: var(--color-primary);
+  color: var(--color-bg);
+}
+
+/* ===== 四季系统 ===== */
+body.season-spring { --season-accent: #ff80b3; }
+body.season-summer { --season-accent: #00ffaa; }
+body.season-autumn { --season-accent: #ffb84d; }
+body.season-winter { --season-accent: #80d4ff; }
+
+/* 季节性粒子容器 */
+.season-particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 四季 + 时间联动示例 */
+body.theme-day.season-spring #page-header .banner-video { filter: brightness(1.15) hue-rotate(5deg); }
+body.theme-night.season-spring #page-header .banner-video { filter: brightness(0.65) hue-rotate(15deg); }
+
+body.theme-day.season-summer #page-header .banner-video { filter: brightness(1.2) hue-rotate(-10deg); }
+body.theme-night.season-summer #page-header .banner-video { filter: brightness(0.7) hue-rotate(-25deg); }
+
+body.theme-day.season-autumn #page-header .banner-video { filter: brightness(1.1) sepia(0.2); }
+body.theme-night.season-autumn #page-header .banner-video { filter: brightness(0.65) sepia(0.4); }
+
+body.theme-day.season-winter #page-header .banner-video { filter: brightness(1.25) contrast(1.1); }
+body.theme-night.season-winter #page-header .banner-video { filter: brightness(0.75) contrast(1.2); }
+/* 首页季节视频背景 */
+#season-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* 保证在文字后面 */
+  filter: brightness(0.75) contrast(1.1) saturate(1.2);
+}
+
+/* 保证首页文字不被视频干扰 */
+body.home {
+  background: none; /* 移除首页原来的背景图 */
+}
+
+/* 修复：不再把首页正文整体下移 */
+body.home #content-inner {
+  margin-top: 0 !important;
+}
+
+/* === 仅首页：把页头高度压到最小，避免挡住正文 === */
+.home #page-header,
+.home #page-header .page-header {
+  min-height: 0 !important;
+  height: auto !important;
+  padding: 0 !important;
+}
+
+/* 首页：正文与侧栏确保在视频之上显示 */
+.home .layout,
+.home #content-inner,
+.home .main-inner,
+.home #aside-content {
+  position: relative !important;
+  z-index: 1 !important;
+}
+
+/* 首页正文稍微向下留白，避免紧贴导航 */
+.home #content-inner { 
+  padding-top: 1.2rem !important;
+}
+
+/* 首页：页头里的任何“横幅视频/图”都隐藏，避免和全屏季节视频叠加 */
+.home #page-header video,
+.home #page-header .banner-video,
+.home #page-header .video-bg {
+  display: none !important;
+}
+
+/* 全屏季节视频：保持在最底层 */
+#season-video-bg {
+  position: fixed !important;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: -1 !important;   /* 在所有内容层之下 */
+  filter: brightness(.75) contrast(1.1) saturate(1.1);
+  pointer-events: none;
+  transition: opacity .6s ease; 
+  opacity: 0;
+}
+#season-video-bg.is-ready { opacity: 1; }
+
+/* 如果你的主题给 body/.main 容器设了 overflow hidden，强制放开，避免层级裁剪 */
+html, body, #container, .main-inner, .content-wrap, .container {
+  overflow: visible !important;
+}
+#page-header::before,
+#page-header::after { pointer-events: none !important; }
+
+/* 全站底层背景视频容器 */
+#web_bg_video {
+  position: fixed;
+  inset: 0;           /* top/right/bottom/left: 0 */
+  z-index: -1;        /* 在所有内容之下 */
+  pointer-events: none;
+}
+
+
+#web_bg_video video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  /* 铺满不拉伸 */
+  filter: brightness(.85) contrast(1.05) saturate(1.05);
+}
+
+/* === Step 3：正文/卡片毛玻璃与半透明（覆盖更全面） === */
+#content-inner .post-content,
+#content-inner .page,
+#content-inner #page,
+#post, #page,
+.layout .recent-post-item,
+#aside-content .card-widget,
+#aside-content .card-widget.card-info,
+.aside-content .card-widget,
+#content-inner .card-widget {
+  background: rgba(10, 10, 14, 0.58);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,255,247,0.08);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35), 0 0 18px rgba(0,255,247,0.06);
+}
+
+/* 首页文章卡片里的文本容器也半透明 */
+.recent-post-item .post-cover ~ .right-content,
+.recent-post-item .recent-post-info {
+  background: rgba(10, 10, 14, 0.55);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* 移动端略降强度，保证清晰与性能 */
+@media (max-width: 768px) {
+  #content-inner .post-content,
+  #content-inner .page,
+  #content-inner #page,
+  #post, #page,
+  .layout .recent-post-item,
+  #aside-content .card-widget,
+#aside-content .card-widget.card-info,
+.aside-content .card-widget,
+  #content-inner .card-widget {
+    background: rgba(10, 10, 14, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+}
+
+
+/* ——— Sidebar Author card: force visible ——— */
+.card-widget.card-info .avatar-img,
+.card-widget.card-info .avatar-img img,
+.card-widget.card-info .author-info-name,
+.card-widget.card-info .author-info-description,
+#card-info-btn {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.card-widget.card-info .avatar-img img{
+  width: 110px !important;
+  height: 110px !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  margin: 8px auto 6px !important;
+  box-shadow: 0 0 12px rgba(0,255,247,.35);
+}
+
+.card-widget.card-info .author-info-name{
+  color: #eafcff !important;
+  font-size: 1.1rem !important;
+  text-align: center !important;
+  margin: 6px 0 2px !important;
+  -webkit-text-stroke: 0.4px rgba(0,0,0,.25);
+  text-shadow: 0 0 8px rgba(0,255,247,.45);
+}
+
+/* ——— Force sidebar widgets to horizontal layout (fix vertical letters) ——— */
+/* Keep widget cards normal flow and width */
+#aside-content .card-widget,
+.aside-content .card-widget,
+#content-inner .card-widget {
+  writing-mode: horizontal-tb !important;   /* ensure horizontal text */
+  text-orientation: mixed !important;       /* reset any vertical orientation */
+  white-space: normal !important;            /* prevent letters breaking vertically */
+}
+
+/* Author card: ensure normal layout for name/description/buttons */
+.card-widget.card-info,
+.card-widget.card-info .author-info-name,
+.card-widget.card-info .author-info-description,
+#card-info-btn {
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  white-space: normal !important;
+}
+
+/* Make sure the whole sidebar is wide enough and not overlapping */
+#aside-content {
+  width: 320px !important;       /* typical Butterfly aside width */
+  max-width: 92vw !important;    /* safe cap on mobile */
+  position: relative !important; /* avoid sticking under video */
+  z-index: 2 !important;
+}
+
+/* Card body spacing to avoid squashed content */
+#aside-content .card-widget .card-widget {
+  padding: 12px 16px !important;
+}
+
+/* ==== Fix: 移动端侧栏被压扁（作者卡片竖排）==== */
+@media (max-width: 991.98px) {
+  /* 回到单列布局 */
+  .layout {
+    display: block !important;
+    grid-template-columns: none !important;
+  }
+
+  /* 侧栏放到正文下方，正常宽度 */
+  #aside-content {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 12px 12px 0 !important;
+    grid-column: auto !important;
+    position: static !important;
+  }
+
+  /* 侧栏内所有卡片占满宽度 */
+  #aside-content .card-widget,
+  .aside-content .card-widget,
+  #content-inner .card-widget {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: normal !important;
+  }
+
+  /* 作者卡片内元素正常水平布局 */
+  .card-widget.card-info {
+    text-align: center !important;
+  }
+  .card-widget.card-info .author-info-name,
+  .card-widget.card-info .author-info-description {
+    writing-mode: horizontal-tb !important;
+    white-space: normal !important;
+  }
+}

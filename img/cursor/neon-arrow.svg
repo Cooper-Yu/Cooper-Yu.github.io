@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 64 64">
+  <defs>
+    <filter id="neon-glow">
+      <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#00fff7"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="4" flood-color="#ff00e6"/>
+    </filter>
+  </defs>
+  <polygon points="2,2 58,32 38,38 48,58" 
+           fill="#00fff7" 
+           stroke="#00fff7" stroke-width="2"
+           filter="url(#neon-glow)"/>
+</svg>
